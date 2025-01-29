@@ -1,17 +1,21 @@
-import threading
-from modules.shortcut_manager import load_shortcuts, save_shortcuts
+# main.py
+import tkinter as tk
+from tkinter import ttk
 from modules.ui import manage_shortcuts
-from modules.keyboard_listener import start_keyboard_listener
+from modules.shortcut_manager import load_shortcuts
+from ttkbootstrap import Style
 
-# Charger les raccourcis
-shortcuts = load_shortcuts()
+def get_app_active():
+    # Cette fonction doit retourner True si l'application est active, False sinon.
+    # Vous pouvez implémenter cette fonction en fonction de vos besoins spécifiques.
+    return True
 
-# Variable pour suivre l'état de l'application
-app_active = False
+def main():
+    # Charger les raccourcis depuis le fichier JSON
+    shortcuts = load_shortcuts()
 
-# Lancer l'écoute globale dans un thread séparé
-keyboard_thread = threading.Thread(target=start_keyboard_listener, args=(shortcuts, lambda: app_active), daemon=True)
-keyboard_thread.start()
+    # Lancer l'interface utilisateur pour gérer les raccourcis
+    manage_shortcuts(shortcuts, get_app_active)
 
-# Lancer l'interface de gestion des raccourcis dans le thread principal
-manage_shortcuts(shortcuts, lambda: app_active)
+if __name__ == "__main__":
+    main()

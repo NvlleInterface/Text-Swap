@@ -1,3 +1,4 @@
+# shortcut_manager.py
 import json
 from config import SHORTCUTS_FILE
 
