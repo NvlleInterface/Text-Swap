@@ -24,18 +24,6 @@ def manage_shortcuts(shortcuts, get_app_active):
         app_active = False
         print("Focus Out")  # Ajout de débogage
 
-    def on_test_entry_key(event):
-        buffer = test_entry.get()
-        if event.keysym == "space":
-            words = buffer.split()
-            if words and words[-1] in shortcuts:
-                last_word = words[-1]
-                replacement = shortcuts[last_word]
-                new_text = buffer.rsplit(last_word, 1)[0] + replacement
-                test_entry.delete(0, tk.END)
-                test_entry.insert(0, new_text)
-                test_entry.icursor(tk.END)
-
     def on_select(event):
         selected_item = shortcuts_list.selection()
         if selected_item:
@@ -59,7 +47,7 @@ def manage_shortcuts(shortcuts, get_app_active):
             messagebox.showwarning("Attention", "Veuillez remplir les deux champs.")
             return
         if key in shortcuts:
-            messagebox.showinfo("Info", f"Le déclencheur '{key}' existe déjà.")
+            messagebox.showinfo("Info", f"Le raccourci '{key}' existe déjà.")
             return
         shortcuts[key] = value
         save_shortcuts(shortcuts)
@@ -67,7 +55,7 @@ def manage_shortcuts(shortcuts, get_app_active):
         key_entry.delete(0, tk.END)
         value_entry.delete(1.0, tk.END)
         key_entry.focus_set()
-        messagebox.showinfo("Succès", f"Le déclencheur '{key}' a été ajouté avec succès.")
+        messagebox.showinfo("Succès", f"Le raccourci '{key}' a été ajouté avec succès.")
 
     def update_shortcut():
         selected_item = shortcuts_list.selection()
@@ -82,7 +70,7 @@ def manage_shortcuts(shortcuts, get_app_active):
         shortcuts[key_to_update] = new_value
         save_shortcuts(shortcuts)
         refresh_shortcuts_list()
-        messagebox.showinfo("Succès", f"Le déclencheur '{key_to_update}' a été mis à jour avec succès.")
+        messagebox.showinfo("Succès", f"Le raccourci '{key_to_update}' a été mis à jour avec succès.")
 
     def delete_shortcut():
         selected_item = shortcuts_list.selection()
@@ -93,10 +81,10 @@ def manage_shortcuts(shortcuts, get_app_active):
         del shortcuts[key_to_delete]
         save_shortcuts(shortcuts)
         refresh_shortcuts_list()
-        messagebox.showinfo("Succès", f"Le déclencheur '{key_to_delete}' a été supprimé avec succès.")
+        messagebox.showinfo("Succès", f"Le raccourci '{key_to_delete}' a été supprimé avec succès.")
 
     window = tk.Tk()
-    window.title("Gestion des raccourcis clavier")
+    window.title("Text Swap")  # Mettre à jour le titre de la fenêtre
     window.geometry("1000x800")  # Augmenter la taille de la fenêtre
 
     # Appliquer un thème moderne avec ttkbootstrap
@@ -106,39 +94,41 @@ def manage_shortcuts(shortcuts, get_app_active):
     window.bind("<FocusOut>", on_focus_out)
 
     # Ajouter des widgets avec des styles
-    label = ttk.Label(window, text="Déclencheur :", style="TLabel")
+    label = ttk.Label(window, text="Raccourci :", style="TLabel")
     label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
-    key_entry = ttk.Entry(window, width=20, style="TEntry")
-    key_entry.grid(row=0, column=1, padx=10, pady=10)
+    key_entry = ttk.Entry(window, width=40, style="TEntry")
+    key_entry.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+    key_entry.insert(0, "Entrez un mot-clé pour déclencher votre raccourci")
+    key_entry.bind("<FocusIn>", lambda event: key_entry.delete(0, tk.END) if key_entry.get() == "Entrez un mot-clé pour déclencher votre raccourci" else None)
 
-    label_value = ttk.Label(window, text="Valeur :", style="TLabel")
+    label_value = ttk.Label(window, text="Expression complète :", style="TLabel")
     label_value.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
-    value_entry = Text(window, width=50, height=5, wrap=tk.WORD)  # Réduire la hauteur de la zone de texte
-    value_entry.grid(row=1, column=1, padx=10, pady=10)
+    # Remplacer Entry par Text pour augmenter la hauteur
+    value_entry = Text(window, width=30, height=5, wrap=tk.WORD)  # Réduire la longueur et augmenter la hauteur
+    value_entry.grid(row=1, column=1, padx=10, pady=10, sticky="w")
+    value_entry.insert(1.0, "Saisissez le texte à insérer")
+    value_entry.bind("<FocusIn>", lambda event: value_entry.delete(1.0, tk.END) if value_entry.get(1.0, tk.END) == "Saisissez le texte à insérer" else None)
 
-    # Ajouter les boutons Ajouter, Modifier et Supprimer entre le champ de texte "Valeur" et la zone de stockage
-    ttk.Button(window, text="Ajouter", command=add_shortcut, style="TButton").grid(row=2, column=0, pady=10, sticky="w")
-    ttk.Button(window, text="Modifier", command=update_shortcut, style="TButton").grid(row=2, column=1, pady=10, sticky="e")
-    ttk.Button(window, text="Supprimer", command=delete_shortcut, style="TButton").grid(row=2, column=2, pady=10)
+    # Ajouter les boutons Ajouter, Modifier et Supprimer entre le champ de texte "Expression complète" et la zone de stockage
+    ttk.Button(window, text="Ajouter", command=add_shortcut, style="TButton").grid(row=2, column=1, pady=10, padx=10, sticky="w")
 
-    shortcuts_list = ttk.Treeview(window, columns=("Déclencheur", "Valeur"), show="headings", height=10)
-    shortcuts_list.grid(row=3, column=0, columnspan=3, padx=10, pady=10)
-    shortcuts_list.heading("Déclencheur", text="Déclencheur")
-    shortcuts_list.heading("Valeur", text="Valeur")
+    # Créer un frame pour contenir les boutons Modifier et Supprimer
+    button_frame = ttk.Frame(window)
+    button_frame.grid(row=2, column=2, pady=10, padx=10, sticky="n")
+
+    ttk.Button(button_frame, text="Modifier", command=update_shortcut, style="TButton").grid(row=0, column=0, pady=5, sticky="ew")
+    ttk.Button(button_frame, text="Supprimer", command=delete_shortcut, style="danger.TButton").grid(row=1, column=0, pady=5, sticky="ew")
+
+    # Ajouter le Treeview pour afficher les raccourcis et les expressions complètes
+    shortcuts_list = ttk.Treeview(window, columns=("Raccourci", "Expression complète"), show="headings", height=10)
+    shortcuts_list.grid(row=3, column=1, columnspan=2, padx=10, pady=10, sticky="nsew")
+    shortcuts_list.heading("Raccourci", text="Raccourci")
+    shortcuts_list.heading("Expression complète", text="Expression complète")
 
     # Attacher l'événement de sélection
     shortcuts_list.bind("<<TreeviewSelect>>", on_select)
-
-    # Ajouter la mention "Zone de test"
-    test_label = ttk.Label(window, text="Zone de test :", style="TLabel")
-    test_label.grid(row=4, column=0, padx=10, pady=10, sticky="w")
-
-    # Définir test_entry avant de l'utiliser
-    test_entry = ttk.Entry(window, width=50, style="TEntry")
-    test_entry.grid(row=4, column=1, padx=10, pady=10)
-    test_entry.bind("<KeyRelease>", on_test_entry_key)
 
     # Démarrer le thread de capture des événements de clavier
     listener_thread = threading.Thread(target=start_keyboard_listener, args=(shortcuts, get_app_active, update_queue), daemon=True)

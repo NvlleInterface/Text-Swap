@@ -7,7 +7,7 @@ a = Analysis(
     pathex=['.'],
     binaries=[],
     datas=[],
-    hiddenimports=['keyboard', 'ttkbootstrap', 'tkinter'],
+    hiddenimports=[],
     hookspath=[],
     runtime_hooks=[],
     excludes=[],
@@ -16,19 +16,18 @@ a = Analysis(
     cipher=block_cipher,
 )
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
+
 exe = EXE(
     pyz,
     a.scripts,
     [],
     exclude_binaries=True,
-    name='Lock In',
+    name='Text Swap',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
-    console=False,
+    console=False,  # Ajoutez cette ligne pour désactiver la console
 )
 coll = COLLECT(
     exe,
@@ -37,6 +36,5 @@ coll = COLLECT(
     a.datas,
     strip=False,
     upx=True,
-    upx_exclude=[],
-    name='Lock In',
+    name='Text Swap',
 )
