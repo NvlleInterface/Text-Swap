@@ -1,4 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
+import sys
 
 block_cipher = None
 
@@ -6,35 +7,38 @@ a = Analysis(
     ['main.py'],
     pathex=['.'],
     binaries=[],
-    datas=[],
-    hiddenimports=[],
+    datas=[
+        ('shortcuts.json', '.'),
+    ],
+    hiddenimports=[
+        'customtkinter',
+        'pynput.keyboard',
+        'pynput.mouse',
+        'pystray',
+        'PIL',
+        'PIL.Image',
+        'PIL.ImageDraw',
+    ],
     hookspath=[],
     runtime_hooks=[],
-    excludes=[],
-    win_no_prefer_redirects=False,
-    win_private_assemblies=False,
+    excludes=['tkinter.test', 'unittest'],
     cipher=block_cipher,
+    noarchive=False,
 )
+
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
 exe = EXE(
     pyz,
     a.scripts,
-    [],
-    exclude_binaries=True,
-    name='Text Swap',
-    debug=False,
-    bootloader_ignore_signals=False,
-    strip=False,
-    upx=True,
-    console=False,  # Ajoutez cette ligne pour désactiver la console
-)
-coll = COLLECT(
-    exe,
     a.binaries,
     a.zipfiles,
     a.datas,
+    name='TextSwap',
+    debug=False,
     strip=False,
     upx=True,
-    name='Text Swap',
+    console=False,
+    windowed=True,
+    icon='icon.ico' if sys.platform == 'win32' else None,
 )

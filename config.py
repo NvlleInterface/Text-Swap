@@ -1,7 +1,9 @@
 # config.py
+from pathlib import Path
 
-# Chemin vers le fichier JSON pour stocker les raccourcis
-SHORTCUTS_FILE = "shortcuts.json"
+# Chemin absolu vers shortcuts.json, résolu depuis ce fichier
+# (indépendant du répertoire de travail courant)
+SHORTCUTS_FILE = Path(__file__).parent / "shortcuts.json"
 
-# Autres configurations
-THEME = "litera"
+# Apparence CustomTkinter : forcé en "Dark" pour le thème retro
+APPEARANCE_MODE = "Dark"

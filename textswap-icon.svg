@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  
+  <defs>
+    <filter id="glow-orange">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="scanlines" width="1" height="3" patternUnits="userSpaceOnUse">
+      <rect width="1" height="1" fill="#000" opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="120" height="120" fill="#1F1F1F"/>
+
+  <!-- Border -->
+  <rect x="4" y="4" width="112" height="112" fill="none" stroke="#FA520F" stroke-width="3"/>
+  <rect x="8" y="8" width="104" height="104" fill="none" stroke="#FFFAEB" stroke-width="1" opacity="0.2"/>
+
+  <!-- Corner pixels -->
+  <rect x="4" y="4" width="10" height="10" fill="#1F1F1F"/>
+  <rect x="6" y="6" width="6" height="6" fill="#FA520F"/>
+  <rect x="106" y="4" width="10" height="10" fill="#1F1F1F"/>
+  <rect x="108" y="6" width="6" height="6" fill="#FA520F"/>
+  <rect x="4" y="106" width="10" height="10" fill="#1F1F1F"/>
+  <rect x="6" y="108" width="6" height="6" fill="#FA520F"/>
+  <rect x="106" y="106" width="10" height="10" fill="#1F1F1F"/>
+  <rect x="108" y="108" width="6" height="6" fill="#FA520F"/>
+
+  <!-- "/" in cream, dimmed -->
+  <text
+    x="10"
+    y="80"
+    font-family="'Courier New', Courier, monospace"
+    font-size="58"
+    font-weight="bold"
+    fill="#FFFAEB"
+    opacity="0.45"
+  >/</text>
+
+  <!-- "TS" in orange with glow -->
+  <text
+    x="32"
+    y="80"
+    font-family="'Courier New', Courier, monospace"
+    font-size="58"
+    font-weight="bold"
+    fill="#FA520F"
+    filter="url(#glow-orange)"
+  >TS</text>
+
+  <!-- "_" cursor style, cream -->
+  <rect x="96" y="82" width="16" height="7" fill="#FFFAEB" opacity="0.85"/>
+
+  <!-- Scanlines -->
+  <rect width="120" height="120" fill="url(#scanlines)" opacity="0.04"/>
+
+</svg>
