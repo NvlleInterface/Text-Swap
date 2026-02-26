@@ -1,9 +1,13 @@
 # config.py
+import sys
 from pathlib import Path
 
-# Chemin absolu vers shortcuts.json, résolu depuis ce fichier
-# (indépendant du répertoire de travail courant)
-SHORTCUTS_FILE = Path(__file__).parent / "shortcuts.json"
+# En mode PyInstaller (frozen), stocker shortcuts.json à côté de l'exe
+# En mode développement, à côté du fichier source
+if getattr(sys, 'frozen', False):
+    _APP_DIR = Path(sys.executable).parent
+else:
+    _APP_DIR = Path(__file__).parent
 
-# Apparence CustomTkinter : forcé en "Dark" pour le thème retro
+SHORTCUTS_FILE = _APP_DIR / "shortcuts.json"
 APPEARANCE_MODE = "Dark"

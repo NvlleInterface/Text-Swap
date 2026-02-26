@@ -88,7 +88,7 @@ cat > "$DESKTOP_FILE" << EOF
 Name=Text Swap
 Comment=Expanseur de texte — tapez un raccourci et appuyez sur espace
 Exec=$BIN_LINK
-Icon=$INSTALL_DIR/icon.png
+Icon=$INSTALL_DIR/textswap-icon.png
 Terminal=false
 Type=Application
 Categories=Utility;

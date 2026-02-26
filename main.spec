@@ -8,7 +8,8 @@ a = Analysis(
     pathex=['.'],
     binaries=[],
     datas=[
-        ('shortcuts.json', '.'),
+        ('theme_retro.json', '.'),
+        ('textswap-icon.png', '.'),
     ],
     hiddenimports=[
         'customtkinter',
@@ -18,6 +19,10 @@ a = Analysis(
         'PIL',
         'PIL.Image',
         'PIL.ImageDraw',
+        'PIL.ImageTk',
+        'plyer',
+        'plyer.platforms',
+        'plyer.platforms.win.notification',
     ],
     hookspath=[],
     runtime_hooks=[],
@@ -40,5 +45,5 @@ exe = EXE(
     upx=True,
     console=False,
     windowed=True,
-    icon='icon.ico' if sys.platform == 'win32' else None,
+    icon='textswap-icon.ico',
 )

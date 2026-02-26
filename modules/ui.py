@@ -44,11 +44,11 @@ def _create_tray_image():
     return img
 
 
-def _font(size=11, bold=False):
+def _font(size=12, bold=False):
     return ctk.CTkFont(family=MONO_FONT, size=size, weight="bold" if bold else "normal")
 
 
-def _label(parent, text, bold=False, size=11, text_color=None, **kw):
+def _label(parent, text, bold=False, size=12, text_color=None, **kw):
     return ctk.CTkLabel(
         parent, text=text, font=_font(size, bold),
         text_color=text_color if text_color is not None else C_TEXT,
@@ -58,8 +58,8 @@ def _label(parent, text, bold=False, size=11, text_color=None, **kw):
 
 def _btn(parent, text, command, width=120, red=False):
     return ctk.CTkButton(
-        parent, text=text, command=command, width=width, height=28,
-        font=_font(11), corner_radius=0, border_width=1,
+        parent, text=text, command=command, width=width, height=30,
+        font=_font(12), corner_radius=0, border_width=1,
         fg_color=C_RED        if red else C_PANEL,
         hover_color=C_RED_HOV if red else C_ACCENT,
         border_color=C_RED    if red else C_ACCENT,
@@ -97,10 +97,10 @@ def manage_shortcuts(shortcuts):
     title_bar.pack(fill="x")
     ctk.CTkFrame(title_bar, height=2, fg_color=ACCENT_LINE, corner_radius=0).pack(fill="x")
 
-    _label(title_bar, "  TEXT SWAP  //  v0.2", bold=True, size=11,
+    _label(title_bar, "  TEXT SWAP  //  v0.2", bold=True, size=14,
            text_color=C_ACCENT).pack(side="left", pady=5, padx=4)
     _label(title_bar, "raccourci + espace pour expanser  ",
-           size=10, text_color=C_TEXT_DIM).pack(side="right", pady=5)
+           size=11, text_color=C_TEXT_DIM).pack(side="right", pady=5)
 
     def toggle_mode():
         new = "Light" if mode_state[0] == "Dark" else "Dark"
@@ -126,16 +126,16 @@ def manage_shortcuts(shortcuts):
 
     # — Titre panneau gauche
     ctk.CTkFrame(left_panel, height=1, fg_color=C_ACCENT_DIM, corner_radius=0).pack(fill="x")
-    _label(left_panel, " NOUVEAU RACCOURCI", bold=True, size=10,
-           text_color=C_ACCENT).pack(anchor="w", padx=8, pady=(5, 4))
+    _label(left_panel, " NOUVEAU RACCOURCI", bold=True, size=14,
+           text_color=C_ACCENT).pack(anchor="w", padx=8, pady=(6, 5))
     ctk.CTkFrame(left_panel, height=1, fg_color=C_ACCENT_DIM, corner_radius=0).pack(fill="x")
 
     # — Champ raccourci (label + entry inline, hauteur fixe comme les lignes du tableau)
     row_key = ctk.CTkFrame(left_panel, fg_color=C_BG, corner_radius=0,
-                           border_width=1, border_color=C_ACCENT, height=26)
+                           border_width=1, border_color=C_ACCENT, height=28)
     row_key.pack(fill="x", padx=8, pady=(6, 0))
     row_key.pack_propagate(False)
-    _label(row_key, " raccourci :", size=10, text_color=C_TEXT_DIM, width=90, anchor="w").pack(
+    _label(row_key, " raccourci :", size=11, text_color=C_ACCENT, width=96, anchor="w").pack(
         side="left", pady=0, padx=0
     )
     ctk.CTkFrame(row_key, width=1, fg_color=C_ACCENT, corner_radius=0).pack(
@@ -143,27 +143,19 @@ def manage_shortcuts(shortcuts):
     )
     key_entry = ctk.CTkEntry(
         row_key, border_width=0, corner_radius=0,
-        font=_font(11), fg_color=C_BG,
+        font=_font(13), fg_color=C_BG,
         text_color=C_TEXT, placeholder_text_color=C_TEXT_DIM,
         placeholder_text="ex: sig",
     )
     key_entry.pack(side="left", fill="x", expand=True, pady=0, padx=4)
 
-    # — Champ expansion (label inline + textbox)
-    row_exp = ctk.CTkFrame(left_panel, fg_color=C_BG, corner_radius=0,
-                           border_width=1, border_color=C_ACCENT, height=26)
-    row_exp.pack(fill="x", padx=8, pady=(4, 0))
-    row_exp.pack_propagate(False)
-    _label(row_exp, " expansion :", size=10, text_color=C_TEXT_DIM, width=90, anchor="w").pack(
-        side="left", pady=0, padx=0
+    # — Champ expansion (label simple + textbox)
+    _label(left_panel, " expansion :", size=11, text_color=C_ACCENT).pack(
+        anchor="w", padx=8, pady=(6, 1)
     )
-    ctk.CTkFrame(row_exp, width=1, fg_color=C_ACCENT, corner_radius=0).pack(
-        side="left", fill="y", pady=0
-    )
-
     value_entry = ctk.CTkTextbox(
-        left_panel, height=80, wrap="word",
-        font=_font(11), corner_radius=0, border_width=1,
+        left_panel, height=84, wrap="word",
+        font=_font(13), corner_radius=0, border_width=1,
         border_color=C_ACCENT, fg_color=C_BG, text_color=C_TEXT,
     )
     value_entry.pack(fill="x", padx=8, pady=(0, 6))
@@ -241,14 +233,14 @@ def manage_shortcuts(shortcuts):
     filter_bar.pack(fill="x")
     ctk.CTkFrame(filter_bar, height=1, fg_color=C_ACCENT_DIM, corner_radius=0).pack(fill="x")
 
-    search_bar_inner = ctk.CTkFrame(filter_bar, fg_color="transparent", corner_radius=0, height=28)
-    search_bar_inner.pack(fill="x", padx=8, pady=2)
+    search_bar_inner = ctk.CTkFrame(filter_bar, fg_color="transparent", corner_radius=0, height=30)
+    search_bar_inner.pack(fill="x", padx=8, pady=3)
     search_bar_inner.pack_propagate(False)
 
-    _label(search_bar_inner, "filtre :", size=10, text_color=C_TEXT).pack(side="left", padx=(0, 4))
+    _label(search_bar_inner, "filtre :", size=11, text_color=C_ACCENT).pack(side="left", padx=(0, 4))
     search_var = ctk.StringVar()
     ctk.CTkEntry(
-        search_bar_inner, height=26, font=_font(11),
+        search_bar_inner, height=28, font=_font(12),
         corner_radius=0, border_width=1,
         fg_color=C_BG, border_color=C_BORDER,
         text_color=C_TEXT, placeholder_text_color=C_TEXT_DIM,
@@ -257,20 +249,20 @@ def manage_shortcuts(shortcuts):
     ).pack(side="left", fill="x", expand=True)
     search_var.trace_add("write", lambda *_: refresh_list())
 
-    count_label = _label(search_bar_inner, "0 entrée(s)", size=10, text_color=C_TEXT)
+    count_label = _label(search_bar_inner, "0 entrée(s)", size=12, text_color=C_TEXT)
     count_label.pack(side="right", padx=(8, 0))
 
     # — En-tête colonnes (hauteur fixe, comme les lignes)
     col_key_w = 160
-    hdr = ctk.CTkFrame(right_panel, fg_color=C_HDR_BG, corner_radius=0, height=24)
+    hdr = ctk.CTkFrame(right_panel, fg_color=C_HDR_BG, corner_radius=0, height=26)
     hdr.pack(fill="x")
     hdr.pack_propagate(False)
-    _label(hdr, " RACCOURCI", bold=True, size=10,
+    _label(hdr, " RACCOURCI", bold=True, size=12,
            text_color=C_ACCENT, width=col_key_w, anchor="w").pack(side="left", pady=0)
     ctk.CTkFrame(hdr, width=1, fg_color=C_ACCENT_DIM, corner_radius=0).pack(
         side="left", fill="y", pady=0
     )
-    _label(hdr, " EXPANSION", bold=True, size=10,
+    _label(hdr, " EXPANSION", bold=True, size=12,
            text_color=C_ACCENT, anchor="w").pack(side="left", pady=0, padx=4)
     ctk.CTkFrame(right_panel, height=1, fg_color=C_ACCENT_DIM, corner_radius=0).pack(fill="x")
 
@@ -306,13 +298,13 @@ def manage_shortcuts(shortcuts):
             if filter_text and filter_text not in k.lower() and filter_text not in v.lower():
                 continue
             bg = C_ROW if idx % 2 == 0 else C_ROW_ALT
-            rf = ctk.CTkFrame(list_scroll, fg_color=bg, corner_radius=0, height=24)
+            rf = ctk.CTkFrame(list_scroll, fg_color=bg, corner_radius=0, height=26)
             rf.pack(fill="x", pady=0)
             rf.pack_propagate(False)
 
             lbl_k = ctk.CTkLabel(
                 rf, text=f" {k}", width=col_key_w, anchor="w",
-                font=_font(10, bold=True), text_color=C_ACCENT,
+                font=_font(12, bold=True), text_color=C_ACCENT,
             )
             lbl_k.pack(side="left", pady=0, padx=0)
 
@@ -325,7 +317,7 @@ def manage_shortcuts(shortcuts):
                 disp = disp[:77] + "…"
             lbl_v = ctk.CTkLabel(
                 rf, text=f" {disp}", anchor="w",
-                font=_font(10), text_color=C_TEXT,
+                font=_font(12), text_color=C_TEXT,
             )
             lbl_v.pack(side="left", pady=0, fill="x", expand=True)
 
